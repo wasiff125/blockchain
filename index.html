@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WEMAKIN DEMO BLOCKCHAIN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Add CSS styles for formatting the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .tab.active {
+            background-color: #333;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .transaction-form {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .transaction-form label,
+        .transaction-form input {
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+
+        .transaction-form button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .transaction-form button:hover {
+            background-color: #45a049;
+        }
+
+        .blockchain {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .block {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            max-width: 600px;
+        }
+
+        .block h3 {
+            margin-top: 0;
+        }
+
+        .block p {
+            margin: 5px 0;
+        }
+
+        #timer {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .navigation {
+    margin-top: 10px;
+}
+
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navigation a:hover {
+    color: #ddd;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WEMAKIN DEMO BLOCKCHAIN</h1>
+        <nav class="navigation">
+            <ul>
+                <li><a class="active" href="#home">Home</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="https://github.com/wasiff125">GitHub</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('sender-tab')">Add Transaction</div>
+            <div class="tab" onclick="showTab('blockchain-tab')">Blockchain</div>
+            <div class="tab" onclick="showTab('about-tab')">About</div> <!-- New "About" tab -->
+        </div>
+        <div class="tab-content active" id="sender-tab">
+            <h2>Add Transaction</h2>
+            <div class="transaction-form">
+                <div>
+                    <label for="sender_name">Sender's Name:</label>
+                    <input type="text" id="sender_name" />
+                </div>
+                <div>
+                    <label for="sender_address">Sender's Address:</label>
+                    <input type="text" id="sender_address" />
+                </div>
+                <div>
+                    <label for="receiver_name">Receiver's Name:</label>
+                    <input type="text" id="receiver_name" />
+                </div>
+                <div>
+                    <label for="receiver_address">Receiver's Address:</label>
+                    <input type="text" id="receiver_address" />
+                </div>
+                <div>
+                    <label for="amount">Amount:</label>
+                    <input type="text" id="amount" />
+                </div>
+                <div>
+                    <button onclick="addTransaction()">Send Transaction</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="blockchain-tab">
+            <h2>Blockchain</h2>
+            <div class="blockchain" id="blockchain"></div>
+        </div>
+        <div class="tab-content" id="about-tab"> <!-- New "About" content -->
+            <h2>About WEMAKIN BLOCKCHAIN</h2>
+    <p>Welcome to WEMAKIN BLOCKCHAIN, a blockchain demo showcasing the fundamental principles of blockchain technology!</p>
+    <p><strong>Purpose:</strong></p>
+    <p>The purpose of this website is to provide an interactive demonstration of how blockchain works. Here, you can add transactions and see how they are mined into blocks, creating an immutable chain of records.</p>
+
+    <h3>How It Works:</h3>
+    <ol>
+        <li><strong>Add Transaction:</strong> To begin, go to the "Add Transaction" tab. Fill in the necessary details like sender's name, address, receiver's name, address, and the amount you want to send. Click on "Send Transaction" to add it to the mining pool.</li>
+        <li><strong>Mine Block:</strong> The mining process collects multiple transactions from the mining pool and creates a new block. The block contains a cryptographic hash of the previous block, forming a chain. Mining is performed automatically every 20 seconds.</li>
+        <li><strong>Blockchain:</strong> Go to the "Blockchain" tab to see the list of blocks in reverse chronological order. Each block contains its index, timestamp, previous hash, current hash, and the transactions it holds.</li>
+        <li><strong>Block Structure:</strong> Every block consists of an index (block number), a timestamp (when it was mined), the previous block's hash (linking it to the previous block), and the current block's hash (generated based on its data).</li>
+        <li><strong>Security:</strong> The blockchain's immutability and security are ensured through cryptographic hashing, making it nearly impossible to tamper with previous records. Any alteration in a block will change its hash and invalidate the subsequent blocks.</li>
+    </ol>
+    <h3>Function Explained:</h3>
+    <ol>
+        <li><strong>hashCode(str) </strong>This function takes a string (str) as input and returns a hash code that represents the data in a readable form. It's a simple way to convert a string into a unique number.
+        </li>
+        <li><strong>calculateHash(index, previousHash, timestamp, data)</strong>This function is used to calculate the hash of a block. It takes four parameters: index (block number), previousHash (hash of the previous block), timestamp (current time), and data (transactions in the block). It uses the hashCode function to create a hash code for the combined data and returns the calculated hash.</li>
+        <li><strong>createNewBlock(previousBlock, data)</strong> his function creates a new block based on the provided previousBlock (the last block in the blockchain) and data (transactions). It calculates the current timestamp, index, and hash for the new block using the calculateHash function. The new block is returned with all the necessary information.</li>
+        <li><strong>addTransaction()</strong>  This function is called when the user clicks the "Send Transaction" button on the website. It collects data from input fields (sender's name, address, receiver's name, address, and amount) and creates a transaction data string. This transaction data is added to the miningTransactions array, which represents the pending transactions waiting to be mined into a block.</li>
+        <li><strong>updateBlockchain() </strong> This function updates the "Blockchain" tab on the website with the current state of the blockchain. It iterates through the blockchain array (a collection of mined blocks) and generates HTML elements to display the details of each block (index, timestamp, previous hash, current hash, and data). The blocks are displayed in reverse order, with the newest block on top.</li>
+        <li><strong>mineBlock()</strong> This function is automatically called every 20 seconds (based on the countdownTimer) to simulate the mining process. If there are pending transactions in the miningTransactions array, it creates a new block using the createNewBlock function, adds it to the blockchain, and updates the blockchain view using the updateBlockchain function. The mined transactions are then cleared from the miningTransactions array.</li>
+        <li><strong>updateTimer() </strong> This function updates the timer displayed on the website, showing the countdown until the next mining process. It decrements the timerValue variable every second and updates the timer element's content. When the timer reaches 0, it calls the mineBlock function to mine a new block, resets the timerValue to 20, and starts counting down again.</li>
+    </ol>
+    
+    <p>The functions work together to create a simple blockchain demonstration. Users can add transactions, which are temporarily stored in the miningTransactions array. Every 20 seconds, a mining process is triggered, where the pending transactions are grouped into a new block, and this block is added to the blockchain. The blockchain view is updated, displaying the blocks in reverse order, with the newest block on top. This process is automated, simulating how a real blockchain system would function. </p>
+    <p>Explore the features of this blockchain demo and gain a better understanding of how this revolutionary technology powers cryptocurrencies and many other decentralized applications!.</p>
+        </div>
+        <div id="timer">Mining in 20 seconds...</div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2023 WEMAKIN DEMO BLOCKCHAIN<br>Developed by Wasiff | All Rights Reserved</p>
+    </div>
+
+    <script>
+
+        function hashCode(str) {
+            let hash = 0;
+            if (str.length === 0) return hash;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        }
+
+        // Modify the calculateHash function to use the non-cryptographic hash function
+        function calculateHash(index, previousHash, timestamp, data) {
+            const blockData = `${index}${previousHash}${timestamp}${data}`;
+            return String(hashCode(blockData));
+        }
+
+
+        // JavaScript code for interacting with the blockchain
+        const blockchainDiv = document.getElementById('blockchain');
+        let blockchain = [];
+        let transactionCount = 0;
+        let miningTransactions = [];
+
+
+        function createNewBlock(previousBlock, data) {
+            const index = previousBlock.index + 1;
+            const timestamp = Date.now() / 1000;
+            const previousHash = previousBlock.hash;
+            const hash = calculateHash(index, previousHash, timestamp, data, '00');
+            return { index, previousHash, timestamp, data, hash };
+        }
+
+        function addTransaction() {
+            const senderName = document.getElementById('sender_name').value;
+            const senderAddress = document.getElementById('sender_address').value;
+            const receiverName = document.getElementById('receiver_name').value;
+            const receiverAddress = document.getElementById('receiver_address').value;
+            const amount = document.getElementById('amount').value;
+
+            const transactionData = `${++transactionCount}. Sender: ${senderName} (${senderAddress})\nReceiver: ${receiverName} (${receiverAddress})\nAmount: ${amount}`;
+            miningTransactions.push(transactionData);
+
+            // Clear input fields after adding a transaction
+            document.getElementById('sender_name').value = '';
+            document.getElementById('sender_address').value = '';
+            document.getElementById('receiver_name').value = '';
+            document.getElementById('receiver_address').value = '';
+            document.getElementById('amount').value = '';
+
+            updateBlockchain();
+        }
+
+        function updateBlockchain() {
+    const blockchainHTML = [];
+    for (let i = blockchain.length - 1; i >= 0; i--) {
+        const block = blockchain[i];
+        blockchainHTML.push(`
+            <div class="block">
+                <h3>Block #${block.index}</h3>
+                <p>Timestamp: ${new Date(block.timestamp * 1000)}</p>
+                <p>Previous Hash: ${block.previousHash}</p>
+                <p>Hash: ${block.hash}</p>
+                <pre>${block.data}</pre>
+            </div>
+        `);
+    }
+
+    blockchainDiv.innerHTML = blockchainHTML.join('');
+}
+
+
+function mineBlock() {
+    if (miningTransactions.length > 0) {
+        const data = miningTransactions.join('\n');
+        const newBlock = createNewBlock(blockchain[blockchain.length - 1], data);
+        blockchain.push(newBlock);
+        miningTransactions = [];
+    }
+}
+
+
+        // Initial blockchain setup with the genesis block
+        const genesisBlock = {
+            index: 0,
+            previousHash: '0',
+            timestamp: Date.now() / 1000,
+            data: 'Genesis Block',
+            hash: calculateHash(0, '0', Date.now() / 1000, 'Genesis Block', '00'),
+        };
+
+        blockchain.push(genesisBlock);
+
+        
+
+        // Function to switch between tabs
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const activeTab = document.getElementById(tabName);
+
+            tabs.forEach((tab) => {
+                tab.classList.remove('active');
+            });
+
+            activeTab.classList.add('active');
+            const activeTabIdx = Array.from(tabs).indexOf(activeTab);
+
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach((button, index) => {
+                if (index === activeTabIdx) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+        function addTransaction() {
+            const senderName = document.getElementById('sender_name').value;
+            const senderAddress = document.getElementById('sender_address').value;
+            const receiverName = document.getElementById('receiver_name').value;
+            const receiverAddress = document.getElementById('receiver_address').value;
+            const amount = document.getElementById('amount').value;
+
+            const transactionData = `${++transactionCount}. Sender: ${senderName} (${senderAddress})\nReceiver: ${receiverName} (${receiverAddress})\nAmount: ${amount}`;
+            miningTransactions.push(transactionData);
+
+            // Clear input fields after adding a transaction
+            document.getElementById('sender_name').value = '';
+            document.getElementById('sender_address').value = '';
+            document.getElementById('receiver_name').value = '';
+            document.getElementById('receiver_address').value = '';
+            document.getElementById('amount').value = '';
+        }
+
+        function mineBlock() {
+            const data = miningTransactions.join('\n');
+            const newBlock = createNewBlock(blockchain[blockchain.length - 1], data);
+            blockchain.push(newBlock);
+            miningTransactions = [];
+            updateBlockchain();
+        }
+
+        // Timer for block mining
+        const timerDiv = document.getElementById('timer');
+        let timerValue = 20;
+
+        function updateTimer() {
+            timerValue -= 1;
+            if (timerValue > 0) {
+                timerDiv.innerHTML = `Mining in ${timerValue} seconds...`;
+            } else {
+                timerDiv.innerHTML = 'Mining...';
+                mineBlock();
+                timerValue = 20;
+            }
+        }
+
+        const countdownTimer = setInterval(updateTimer, 1000); // Update every second
+
+        // Function to switch between tabs
+        function showTab(tabName) {
+    const tabs = document.querySelectorAll('.tab-content');
+    const activeTab = document.getElementById(tabName);
+
+    tabs.forEach((tab) => {
+        tab.classList.remove('active');
+    });
+
+    activeTab.classList.add('active');
+    const activeTabIdx = Array.from(tabs).indexOf(activeTab);
+
+    const tabButtons = document.querySelectorAll('.tab');
+    tabButtons.forEach((button, index) => {
+        if (index === activeTabIdx) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+}
+
+    </script>
+</body>
+</html>
